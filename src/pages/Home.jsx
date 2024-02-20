@@ -1,13 +1,14 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import 레드벨벳 from "assets/images/레드벨벳.jpg";
 import wendy from "assets/images/wendy.png";
 import styled from "styled-components";
 import uuid from "react-uuid";
-import { plusComment } from "../redux/modules/entireComment";
-import { createNickName } from "../redux/modules/nickName";
-import { createContent } from "../redux/modules/content";
+import { plusComment } from "../redux/modules/entireCommentSlice";
+import { createNickName } from "../redux/modules/nickNameSlice";
+import { createContent } from "../redux/modules/contentSlice";
+import { falseLoginState, trueLoginState } from "../redux/modules/authSlice";
 
 const redVelvet = [
   { id: 1, value: "Wendy", name: "웬디" },
@@ -22,10 +23,17 @@ function Home() {
   const dispatch = useDispatch();
   const [selectedMember, setSelectedMember] = useState("Wendy");
   const [getLetterMember, setGetLetterMeber] = useState("Wendy");
-
   const entireComment = useSelector((state) => state.entireComment.data);
   const nickName = useSelector((state) => state.nickName.name);
   const content = useSelector((state) => state.content.comment);
+  const isLogin = useSelector((state) => state.changeLoginState.isLogin);
+
+  useEffect(() => {
+    const storedUserInfo = localStorage.getItem("userInfo");
+    if (storedUserInfo) {
+      dispatch(trueLoginState());
+    }
+  }, []);
 
   //날짜추가
   let today = new Date();
@@ -71,6 +79,11 @@ function Home() {
       comment.writedTo === selectedMember || comment.value === selectedMember
   );
 
+  const onClickLoginButton = () => {
+    dispatch(falseLoginState());
+    navigate("/");
+  };
+
   return (
     <>
       <BackGroundImg alt="img">
@@ -91,7 +104,13 @@ function Home() {
           })}
         </ButtonBox>
       </BackGroundImg>
-
+      {isLogin ? (
+        <div>
+          <button onClick={onClickLoginButton}>로그 아웃</button>
+        </div>
+      ) : (
+        <></>
+      )}
       <Main>
         <FormBody onSubmit={handleContent}>
           <NickNameDiv>

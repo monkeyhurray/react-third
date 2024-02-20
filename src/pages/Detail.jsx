@@ -3,7 +3,10 @@ import styled from "styled-components";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams, useNavigate } from "react-router-dom";
 import wendy from "assets/images/wendy.png";
-import { removeComment, editComment } from "../redux/modules/entireComment";
+import {
+  removeComment,
+  editComment,
+} from "../redux/modules/entireCommentSlice";
 
 function Detail() {
   const navigate = useNavigate();
