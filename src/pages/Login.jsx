@@ -5,7 +5,7 @@ import { useDispatch, useSelector } from "react-redux";
 import axios from "axios";
 import { loginReduce } from "../redux/modules/loginSlice";
 
-function Login({ setData }) {
+function Login() {
   const navigate = useNavigate();
 
   const dispatch = useDispatch();

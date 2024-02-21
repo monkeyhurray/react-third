@@ -2,6 +2,7 @@ import { React, useState } from "react";
 import styled from "styled-components";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams, useNavigate } from "react-router-dom";
+
 import wendy from "assets/images/wendy.png";
 import {
   removeComment,
@@ -17,7 +18,7 @@ function Detail() {
   });
 
   const { id } = useParams();
-
+  const { content } = useSelector((state) => state.letter.newLetter);
   const selectedData = entireComment.find((item) => item.id === id);
   const [updateComment, setUpdateComment] = useState(selectedData.content);
 
@@ -31,12 +32,12 @@ function Detail() {
   };
 
   const updateBtn = () => {
-    const nextCommentList = entireComment.map((comment) => {
-      if (comment.id === id) {
-        return { ...comment, content: updateComment };
+    const nextCommentList = entireComment.map((commentItem) => {
+      if (commentItem.id === id) {
+        return { ...commentItem, content: updateComment };
       }
 
-      return comment;
+      return commentItem;
     });
 
     dispatch(editComment(nextCommentList));

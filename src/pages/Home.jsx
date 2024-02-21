@@ -7,9 +7,9 @@ import styled from "styled-components";
 import uuid from "react-uuid";
 import axios from "axios";
 import { plusComment } from "../redux/modules/entireCommentSlice";
-import { createContent } from "../redux/modules/contentSlice";
+// import { createContent } from "../redux/modules/contentSlice";
 import { trueLoginState } from "../redux/modules/authSlice";
-import { __getLetters } from "../redux/modules/lettersSlice";
+import { __getLetters, __addLetters } from "../redux/modules/lettersSlice";
 
 const redVelvet = [
   { id: 1, value: "Wendy", name: "웬디" },
@@ -25,21 +25,22 @@ function Home() {
   const [selectedMember, setSelectedMember] = useState("Wendy");
   const [getLetterMember, setGetLetterMeber] = useState("Wendy");
   const entireComment = useSelector((state) => state.entireComment.data);
-  const content = useSelector((state) => state.content.comment);
+
   const { nickname } = useSelector((state) => state.signUp);
 
-  // const { id, content, avatart, writedTo, createAt, userId } = useSelector(
-  //   (state) => state.letter.newLetter
-  // );
+  const { id, content, avatart, writedTo, createAt, userId } = useSelector(
+    (state) => state.letter.newLetter
+  );
+
+  console.log(content);
+
   useEffect(() => {
     const storedUserInfo = localStorage.getItem("userInfo");
     if (storedUserInfo) {
       dispatch(trueLoginState());
     }
-  }, []);
-  useEffect(() => {
-    dispatch(__getLetters());
   }, [dispatch]);
+
   //날짜추가
   let today = new Date();
   const getDateString = (today) => {
@@ -57,17 +58,15 @@ function Home() {
 
   //새로 추가할 이름과 내용
 
-  const writeContent = (content) =>
-    dispatch(createContent(content.target.value));
-
   const handleContent = (e) => {
     e.preventDefault();
     dispatch(
       plusComment({ nickname, content, id: uuid(), value: getLetterMember })
     );
-
-    dispatch(createContent(""));
   };
+  // dispatch(
+  //   __addLetters({ nickname, content, id: uuid(), value: getLetterMember })
+  // );
 
   const handleSelectedMeber = (member) => {
     setGetLetterMeber(member.target.value);
@@ -80,7 +79,6 @@ function Home() {
     (comment) =>
       comment.writedTo === selectedMember || comment.value === selectedMember
   );
-  console.log(nickname);
 
   return (
     <>
@@ -109,8 +107,10 @@ function Home() {
           <ContentDiv>
             내용:{" "}
             <ContentArea
-              value={content}
-              onChange={writeContent}
+              onChange={(e) => {
+                console.log(e.target.value);
+                dispatch(__addLetters({ content: e.target.value }));
+              }}
               maxLength="100"
               placeholder="최대 100자 까지만 작성할 수 있습니다."
             />
