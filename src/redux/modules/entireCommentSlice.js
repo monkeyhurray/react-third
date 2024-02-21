@@ -6,7 +6,7 @@ const initialState = {
 };
 
 const entireCommentSlice = createSlice({
-  name: "createSlice",
+  name: "entireComment",
   initialState,
   reducers: {
     plusComment: (state, action) => {

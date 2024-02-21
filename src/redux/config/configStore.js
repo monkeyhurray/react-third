@@ -1,17 +1,18 @@
 import { configureStore } from "@reduxjs/toolkit";
-import nickName from "../modules/nickNameSlice";
 import content from "../modules/contentSlice";
 import entireComment from "../modules/entireCommentSlice";
-import changeLoginState from "../modules/authSlice";
-import userSlice from "../modules/userSlice";
-
+import auth from "../modules/authSlice";
+import signUp from "../modules/signUpSlice";
+import login from "../modules/loginSlice";
+import letter from "../modules/lettersSlice";
 const store = configureStore({
   reducer: {
-    nickName,
     content,
     entireComment,
-    changeLoginState,
-    userSlice,
+    auth,
+    signUp,
+    login,
+    letter,
   },
 });
 

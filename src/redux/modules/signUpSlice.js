@@ -4,12 +4,10 @@ const initialState = {
   id: "",
   password: "",
   nickname: "",
-  loginId: "",
-  loginPassword: "",
 };
 
 const userSlice = createSlice({
-  name: "user",
+  name: "signUp",
   initialState,
   reducers: {
     signUpReduce: (state, action) => {
@@ -23,17 +21,8 @@ const userSlice = createSlice({
         state.nickname = action.payload.nickname;
       }
     },
-
-    loginReduce: (state, action) => {
-      if (action.payload.loginId) {
-        state.loginId = action.payload.loginId;
-      }
-      if (action.payload.loginPassword) {
-        state.loginPassword = action.payload.loginPassword;
-      }
-    },
   },
 });
 
-export const { signUpReduce, loginReduce } = userSlice.actions;
+export const { signUpReduce } = userSlice.actions;
 export default userSlice.reducer;

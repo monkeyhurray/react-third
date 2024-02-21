@@ -1,34 +1,37 @@
-import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { trueLoginState } from "../redux/modules/authSlice";
 import { useDispatch, useSelector } from "react-redux";
 import axios from "axios";
-import { loginReduce } from "../redux/modules/userSlice";
+import { loginReduce } from "../redux/modules/loginSlice";
 
-function Login() {
+function Login({ setData }) {
   const navigate = useNavigate();
 
   const dispatch = useDispatch();
-  const id = useSelector((state) => state.userSlice.loginId);
-  const password = useSelector((state) => state.userSlice.loginPassword);
+  const { loginId, loginPassword } = useSelector((state) => state.login);
+
+  const { nickname } = useSelector((state) => state.signUp);
+  const BASE_URL = "https://moneyfulpublicpolicy.co.kr";
 
   const onClickLoginButton = async () => {
     try {
-      const joinRequest = await axios.post(
-        "https://moneyfulpublicpolicy.co.kr/login",
-        {
-          id: id,
-          password: password,
-        }
-      );
-      console.log("로그인 데이터", joinRequest);
+      const logininRequest = await axios.post(`${BASE_URL}/login`, {
+        id: loginId,
+        password: loginPassword,
+      });
+      console.log("로그인 데이터", logininRequest);
 
-      const { success } = joinRequest.data;
+      const { success, accessToken } = logininRequest.data;
       alert(success);
-      localStorage.setItem("userInfo", JSON.stringify({ id }));
+      console.log("닉네임", nickname);
+      localStorage.setItem(
+        "userInfo",
+        JSON.stringify({ loginId, nickname, accessToken })
+      );
 
       dispatch(trueLoginState());
+
       navigate("/");
     } catch (error) {
       alert("로그인이 되지 않았습니다.");
@@ -41,14 +44,14 @@ function Login() {
       <input
         type="text"
         placeholder="아이디는 4~10글자"
-        value={id}
+        value={loginId}
         onChange={(e) => dispatch(loginReduce({ loginId: e.target.value }))}
       />
 
       <input
         type="text"
         placeholder="비밀번호는 4~15글자"
-        value={password}
+        value={loginPassword}
         onChange={(e) =>
           dispatch(loginReduce({ loginPassword: e.target.value }))
         }

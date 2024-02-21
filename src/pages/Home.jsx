@@ -5,10 +5,11 @@ import 레드벨벳 from "assets/images/레드벨벳.jpg";
 import wendy from "assets/images/wendy.png";
 import styled from "styled-components";
 import uuid from "react-uuid";
+import axios from "axios";
 import { plusComment } from "../redux/modules/entireCommentSlice";
-import { createNickName } from "../redux/modules/nickNameSlice";
 import { createContent } from "../redux/modules/contentSlice";
-import { falseLoginState, trueLoginState } from "../redux/modules/authSlice";
+import { trueLoginState } from "../redux/modules/authSlice";
+import { __getLetters } from "../redux/modules/lettersSlice";
 
 const redVelvet = [
   { id: 1, value: "Wendy", name: "웬디" },
@@ -24,17 +25,21 @@ function Home() {
   const [selectedMember, setSelectedMember] = useState("Wendy");
   const [getLetterMember, setGetLetterMeber] = useState("Wendy");
   const entireComment = useSelector((state) => state.entireComment.data);
-  const nickName = useSelector((state) => state.nickName.name);
   const content = useSelector((state) => state.content.comment);
-  const isLogin = useSelector((state) => state.changeLoginState.isLogin);
+  const { nickname } = useSelector((state) => state.signUp);
 
+  // const { id, content, avatart, writedTo, createAt, userId } = useSelector(
+  //   (state) => state.letter.newLetter
+  // );
   useEffect(() => {
     const storedUserInfo = localStorage.getItem("userInfo");
     if (storedUserInfo) {
       dispatch(trueLoginState());
     }
   }, []);
-
+  useEffect(() => {
+    dispatch(__getLetters());
+  }, [dispatch]);
   //날짜추가
   let today = new Date();
   const getDateString = (today) => {
@@ -51,8 +56,6 @@ function Home() {
   };
 
   //새로 추가할 이름과 내용
-  const writeNickName = (nickName) =>
-    dispatch(createNickName(nickName.target.value));
 
   const writeContent = (content) =>
     dispatch(createContent(content.target.value));
@@ -60,10 +63,9 @@ function Home() {
   const handleContent = (e) => {
     e.preventDefault();
     dispatch(
-      plusComment({ nickName, content, id: uuid(), value: getLetterMember })
+      plusComment({ nickname, content, id: uuid(), value: getLetterMember })
     );
 
-    dispatch(createNickName(""));
     dispatch(createContent(""));
   };
 
@@ -78,11 +80,7 @@ function Home() {
     (comment) =>
       comment.writedTo === selectedMember || comment.value === selectedMember
   );
-
-  const onClickLoginButton = () => {
-    dispatch(falseLoginState());
-    navigate("/");
-  };
+  console.log(nickname);
 
   return (
     <>
@@ -104,25 +102,10 @@ function Home() {
           })}
         </ButtonBox>
       </BackGroundImg>
-      {isLogin ? (
-        <div>
-          <button onClick={onClickLoginButton}>로그 아웃</button>
-        </div>
-      ) : (
-        <></>
-      )}
+
       <Main>
         <FormBody onSubmit={handleContent}>
-          <NickNameDiv>
-            닉네임:{" "}
-            <NickNameInput
-              type="text"
-              value={nickName}
-              onChange={writeNickName}
-              maxLength="20"
-              placeholder="최대 20글자까지 작성할 수 있습니다."
-            />
-          </NickNameDiv>
+          <NickNameDiv>닉네임: &nbsp;{nickname} </NickNameDiv>
           <ContentDiv>
             내용:{" "}
             <ContentArea

@@ -2,11 +2,11 @@ import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import axios from "axios";
-import { signUpReduce } from "../redux/modules/userSlice";
+import { signUpReduce } from "../redux/modules/signUpSlice";
 
 function Join() {
   const navigate = useNavigate();
-  const { id, password, nickname } = useSelector((state) => state.userSlice);
+  const { id, password, nickname } = useSelector((state) => state.signUp);
   const dispatch = useDispatch();
 
   const onSubmitJoinHandler = async () => {
@@ -19,7 +19,7 @@ function Join() {
           nickname: nickname,
         }
       );
-      console.log("로그인 데이터", joinRequest);
+      console.log("가입 데이터", joinRequest);
 
       const { message, success } = joinRequest.data;
       alert(message, success);
