@@ -41,7 +41,7 @@ function Join() {
       <input
         type="text"
         placeholder="아이디는 4~10글자"
-        value={id || ""}
+        value={id}
         onChange={(e) => {
           dispatch(signUpReduce({ id: e.target.value }));
         }}
@@ -50,7 +50,7 @@ function Join() {
       <input
         type="text"
         placeholder="비밀번호는 4~15글자"
-        value={password || ""}
+        value={password}
         onChange={(e) => {
           dispatch(signUpReduce({ password: e.target.value }));
         }}
@@ -58,7 +58,7 @@ function Join() {
       <input
         type="text"
         placeholder="이름 작성 란"
-        value={nickname || ""}
+        value={nickname}
         onChange={(e) => {
           dispatch(signUpReduce({ nickname: e.target.value }));
         }}

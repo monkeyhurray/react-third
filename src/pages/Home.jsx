@@ -5,8 +5,7 @@ import 레드벨벳 from "assets/images/레드벨벳.jpg";
 import wendy from "assets/images/wendy.png";
 import styled from "styled-components";
 import uuid from "react-uuid";
-import axios from "axios";
-import { plusComment } from "../redux/modules/entireCommentSlice";
+
 // import { createContent } from "../redux/modules/contentSlice";
 import { trueLoginState } from "../redux/modules/authSlice";
 import { __getLetters, __addLetters } from "../redux/modules/lettersSlice";
@@ -24,11 +23,13 @@ function Home() {
   const dispatch = useDispatch();
   const [selectedMember, setSelectedMember] = useState("Wendy");
   const [getLetterMember, setGetLetterMeber] = useState("Wendy");
-  const entireComment = useSelector((state) => state.entireComment.data);
+  const nicknameValue = localStorage.getItem(
+    "useIngo",
+    JSON.stringify("uerInfo")
+  );
+  //const { nickname } = useSelector((state) => state.signUp);
 
-  const { nickname } = useSelector((state) => state.signUp);
-
-  const { id, content, avatart, writedTo, createAt, userId } = useSelector(
+  const { id, content, avatart, writedTo, createAt } = useSelector(
     (state) => state.letter.newLetter
   );
 
@@ -36,10 +37,16 @@ function Home() {
 
   useEffect(() => {
     const storedUserInfo = localStorage.getItem("userInfo");
+
     if (storedUserInfo) {
       dispatch(trueLoginState());
     }
   }, [dispatch]);
+  const userInfo = JSON.parse(localStorage.getItem("userInfo"));
+
+  const { loginId, nickname } = userInfo;
+  console.log(loginId, nickname);
+  dispatch(__addLetters({ id: loginId, nickname }));
 
   //날짜추가
   let today = new Date();
@@ -60,13 +67,8 @@ function Home() {
 
   const handleContent = (e) => {
     e.preventDefault();
-    dispatch(
-      plusComment({ nickname, content, id: uuid(), value: getLetterMember })
-    );
+    dispatch(__addLetters({ content, value: getLetterMember }));
   };
-  // dispatch(
-  //   __addLetters({ nickname, content, id: uuid(), value: getLetterMember })
-  // );
 
   const handleSelectedMeber = (member) => {
     setGetLetterMeber(member.target.value);
@@ -75,10 +77,12 @@ function Home() {
   //페이지 이동 및 정보 전달
   const handleCommentClick = (id) => navigate(`/detail/${id}`);
 
-  const filterdComments = entireComment.filter(
-    (comment) =>
-      comment.writedTo === selectedMember || comment.value === selectedMember
-  );
+  const entireComment = useSelector((state) => state.letter.newLetter);
+  console.log(entireComment);
+  // const filterdComments = entireComment.filter(
+  //   (comment) =>
+  //     comment.writedTo === selectedMember || comment.value === selectedMember
+  // );
 
   return (
     <>
@@ -128,7 +132,7 @@ function Home() {
           <FormUploadInput type="submit" value={"팬레터 등록"} />
         </FormBody>
 
-        {filterdComments.map((item) => {
+        {/* {filterdComments.map((item) => {
           return (
             <CommentDiv
               key={item.id}
@@ -141,7 +145,7 @@ function Home() {
               <CommentP>{item.writedTo ? item.writedTo : item.value}</CommentP>
             </CommentDiv>
           );
-        })}
+        })} */}
       </Main>
     </>
   );

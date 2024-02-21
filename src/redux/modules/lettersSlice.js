@@ -16,7 +16,7 @@ const initialState = {
 };
 
 export const __addLetters = createAsyncThunk(
-  "getLetters",
+  "postLetters",
   async (payload, thunkAPI) => {
     try {
       const { data } = await axios.post("http://localhost:4000/letters");
@@ -52,6 +52,31 @@ const lettersSlice = createSlice({
   initialState,
   reducers: {},
   extraReducers: (builder) => {
+    builder.addCase(__addLetters.fulfilled, (state, action) => {
+      console.log(action);
+      console.log(action.meta.arg);
+      if (action.payload.id) {
+        state.newLetter.id = action.payload.id;
+      }
+
+      if (action.payload.nickname) {
+        state.newLetter.nickname = action.payload.nickname;
+      }
+
+      if (action.payload.writedTo) {
+        state.newLetter.writedTo = action.payload.writedTo;
+      }
+
+      if (action.payload.avatar) {
+        state.newLetter.avatar = action.payload.avatar;
+      }
+      state.newLetter.avatar = action.payload.avatar;
+
+      if (action.meta.arg.content) {
+        state.newLetter.content = action.meta.arg.content;
+      }
+    });
+
     builder.addCase(__getLetters.fulfilled, (state, action) => {
       console.log(action);
       console.log(action.meta.arg);
