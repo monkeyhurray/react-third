@@ -6,7 +6,6 @@ import wendy from "assets/images/wendy.png";
 import styled from "styled-components";
 import uuid from "react-uuid";
 
-// import { createContent } from "../redux/modules/contentSlice";
 import { setIsLogin } from "../redux/modules/authSlice";
 import { __getLetters, __addLetters } from "../redux/modules/lettersSlice";
 
@@ -25,7 +24,6 @@ function Home() {
   const [getLetterMember, setGetLetterMeber] = useState("Wendy");
   const [textAreaContent, setTextAreaContent] = useState("");
 
-  //const { nickname } = useSelector((state) => state.signUp);
   const { newLetter, isLoading, error } = useSelector((state) => state.letter);
   console.log(newLetter);
 
@@ -75,8 +73,6 @@ function Home() {
   const handleSelectedMeber = (member) => {
     setGetLetterMeber(member.target.value);
   };
-  // const { id } = useSelector((state) => state.letter.newLetter);
-  //페이지 이동 및 정보 전달
 
   const handleCommentClick = (id) => navigate(`/detail/${id}`);
 
@@ -87,11 +83,6 @@ function Home() {
   if (error) {
     return <div>{error.message}</div>;
   }
-
-  // const filterdComments = entireComment.filter(
-  //   (comment) =>
-  //     comment.writedTo === selectedMember || comment.value === selectedMember
-  // );
 
   return (
     <>

@@ -13,13 +13,10 @@ function Detail() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const [edited, setEdited] = useState(false);
-  const entireComment = useSelector((state) => {
-    return state.entireComment.data;
-  });
 
   const { id } = useParams();
-  const { content } = useSelector((state) => state.letter.newLetter);
-  const selectedData = entireComment.find((item) => item.id === id);
+  const { newLetter } = useSelector((state) => state.letter);
+  const selectedData = newLetter.find((item) => item.id === id);
   const [updateComment, setUpdateComment] = useState(selectedData.content);
 
   const removeHandler = (id) => {
@@ -32,7 +29,7 @@ function Detail() {
   };
 
   const updateBtn = () => {
-    const nextCommentList = entireComment.map((commentItem) => {
+    const nextCommentList = newLetter.map((commentItem) => {
       if (commentItem.id === id) {
         return { ...commentItem, content: updateComment };
       }
