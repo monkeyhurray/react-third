@@ -1,6 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
-import { trueLoginState } from "../redux/modules/authSlice";
+import { setIsLogin } from "../redux/modules/authSlice";
 import { useDispatch, useSelector } from "react-redux";
 import axios from "axios";
 import { loginReduce } from "../redux/modules/loginSlice";
@@ -30,11 +30,11 @@ function Login() {
         JSON.stringify({ loginId, nickname, accessToken })
       );
 
-      dispatch(trueLoginState());
+      dispatch(setIsLogin(true));
 
       navigate("/");
     } catch (error) {
-      alert("로그인이 되지 않았습니다.");
+      alert("로그인이 되지 않았습니다.", error);
       console.log("로그인 오류", error);
     }
   };
@@ -44,14 +44,12 @@ function Login() {
       <input
         type="text"
         placeholder="아이디는 4~10글자"
-        value={loginId}
         onChange={(e) => dispatch(loginReduce({ loginId: e.target.value }))}
       />
 
       <input
         type="text"
         placeholder="비밀번호는 4~15글자"
-        value={loginPassword}
         onChange={(e) =>
           dispatch(loginReduce({ loginPassword: e.target.value }))
         }

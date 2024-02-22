@@ -8,17 +8,15 @@ function Join() {
   const navigate = useNavigate();
   const { id, password, nickname } = useSelector((state) => state.signUp);
   const dispatch = useDispatch();
+  const BASE_URL = "https://moneyfulpublicpolicy.co.kr";
 
   const onSubmitJoinHandler = async () => {
     try {
-      const joinRequest = await axios.post(
-        "https://moneyfulpublicpolicy.co.kr/register",
-        {
-          id: id,
-          password: password,
-          nickname: nickname,
-        }
-      );
+      const joinRequest = await axios.post(`${BASE_URL}/register`, {
+        id: id,
+        password: password,
+        nickname: nickname,
+      });
       console.log("가입 데이터", joinRequest);
 
       const { message, success } = joinRequest.data;
@@ -41,7 +39,6 @@ function Join() {
       <input
         type="text"
         placeholder="아이디는 4~10글자"
-        value={id}
         onChange={(e) => {
           dispatch(signUpReduce({ id: e.target.value }));
         }}
@@ -50,7 +47,6 @@ function Join() {
       <input
         type="text"
         placeholder="비밀번호는 4~15글자"
-        value={password}
         onChange={(e) => {
           dispatch(signUpReduce({ password: e.target.value }));
         }}
@@ -58,7 +54,6 @@ function Join() {
       <input
         type="text"
         placeholder="이름 작성 란"
-        value={nickname}
         onChange={(e) => {
           dispatch(signUpReduce({ nickname: e.target.value }));
         }}

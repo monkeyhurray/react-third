@@ -2,7 +2,7 @@ import React from "react";
 import styled from "styled-components";
 import { useNavigate, Outlet } from "react-router-dom";
 import { useDispatch } from "react-redux";
-import { falseLoginState } from "../redux/modules/authSlice";
+import { setIsLogin } from "../redux/modules/authSlice";
 
 function Layout() {
   const navigate = useNavigate();
@@ -12,7 +12,7 @@ function Layout() {
 
   const onClickLogOutHandler = () => {
     localStorage.removeItem("userInfo");
-    dispatch(falseLoginState());
+    dispatch(setIsLogin(false));
   };
 
   return (
@@ -41,5 +41,4 @@ const InfoDiv = styled.div`
   text-align: center;
 
   background-color: gray;
-  width: 700px;
 `;

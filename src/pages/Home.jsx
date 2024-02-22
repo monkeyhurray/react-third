@@ -7,7 +7,7 @@ import styled from "styled-components";
 import uuid from "react-uuid";
 
 // import { createContent } from "../redux/modules/contentSlice";
-import { trueLoginState } from "../redux/modules/authSlice";
+import { setIsLogin } from "../redux/modules/authSlice";
 import { __getLetters, __addLetters } from "../redux/modules/lettersSlice";
 
 const redVelvet = [
@@ -23,30 +23,19 @@ function Home() {
   const dispatch = useDispatch();
   const [selectedMember, setSelectedMember] = useState("Wendy");
   const [getLetterMember, setGetLetterMeber] = useState("Wendy");
-  const nicknameValue = localStorage.getItem(
-    "useIngo",
-    JSON.stringify("uerInfo")
-  );
+  const [textAreaContent, setTextAreaContent] = useState("");
+
   //const { nickname } = useSelector((state) => state.signUp);
-
-  const { id, content, avatart, writedTo, createAt } = useSelector(
-    (state) => state.letter.newLetter
-  );
-
-  console.log(content);
+  const { newLetter, isLoading, error } = useSelector((state) => state.letter);
+  console.log(newLetter);
 
   useEffect(() => {
     const storedUserInfo = localStorage.getItem("userInfo");
-
     if (storedUserInfo) {
-      dispatch(trueLoginState());
+      dispatch(setIsLogin(true));
     }
+    dispatch(__getLetters());
   }, [dispatch]);
-  const userInfo = JSON.parse(localStorage.getItem("userInfo"));
-
-  const { loginId, nickname } = userInfo;
-  console.log(loginId, nickname);
-  dispatch(__addLetters({ id: loginId, nickname }));
 
   //날짜추가
   let today = new Date();
@@ -64,21 +53,41 @@ function Home() {
   };
 
   //새로 추가할 이름과 내용
+  const userInfo = JSON.parse(localStorage.getItem("userInfo"));
+
+  const { loginId, nickname } = userInfo;
 
   const handleContent = (e) => {
     e.preventDefault();
-    dispatch(__addLetters({ content, value: getLetterMember }));
+    dispatch(
+      __addLetters({
+        id: uuid(),
+        content: textAreaContent,
+        userId: loginId,
+        nickname,
+        avatar: `${wendy}`,
+        writedTo: getLetterMember,
+        createdAt: getDateString(today),
+      })
+    );
   };
 
   const handleSelectedMeber = (member) => {
     setGetLetterMeber(member.target.value);
   };
-
+  // const { id } = useSelector((state) => state.letter.newLetter);
   //페이지 이동 및 정보 전달
+
   const handleCommentClick = (id) => navigate(`/detail/${id}`);
 
-  const entireComment = useSelector((state) => state.letter.newLetter);
-  console.log(entireComment);
+  if (isLoading) {
+    return <div>로딩중...</div>;
+  }
+
+  if (error) {
+    return <div>{error.message}</div>;
+  }
+
   // const filterdComments = entireComment.filter(
   //   (comment) =>
   //     comment.writedTo === selectedMember || comment.value === selectedMember
@@ -112,8 +121,7 @@ function Home() {
             내용:{" "}
             <ContentArea
               onChange={(e) => {
-                console.log(e.target.value);
-                dispatch(__addLetters({ content: e.target.value }));
+                setTextAreaContent(e.target.value);
               }}
               maxLength="100"
               placeholder="최대 100자 까지만 작성할 수 있습니다."
@@ -132,7 +140,7 @@ function Home() {
           <FormUploadInput type="submit" value={"팬레터 등록"} />
         </FormBody>
 
-        {/* {filterdComments.map((item) => {
+        {newLetter.map((item) => {
           return (
             <CommentDiv
               key={item.id}
@@ -145,7 +153,7 @@ function Home() {
               <CommentP>{item.writedTo ? item.writedTo : item.value}</CommentP>
             </CommentDiv>
           );
-        })} */}
+        })}
       </Main>
     </>
   );

@@ -1,5 +1,6 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
+import { act } from "react-dom/test-utils";
 
 const newLetter = {
   id: "",
@@ -12,14 +13,19 @@ const newLetter = {
 };
 
 const initialState = {
-  newLetter,
+  newLetter: [],
+  isLoading: false,
+  error: null,
 };
 
 export const __addLetters = createAsyncThunk(
   "postLetters",
   async (payload, thunkAPI) => {
     try {
-      const { data } = await axios.post("http://localhost:4000/letters");
+      const { data } = await axios.post("http://localhost:4000/letters", {
+        ...payload,
+      });
+
       console.log("response", data);
       console.log("payload", payload);
 
@@ -52,44 +58,41 @@ const lettersSlice = createSlice({
   initialState,
   reducers: {},
   extraReducers: (builder) => {
+    //addLetters
+    builder.addCase(__addLetters.pending, (state, action) => {
+      state.isLoading = true;
+      state.error = null;
+    });
+
     builder.addCase(__addLetters.fulfilled, (state, action) => {
-      console.log(action);
-      console.log(action.meta.arg);
-      if (action.payload.id) {
-        state.newLetter.id = action.payload.id;
-      }
+      state.isLoading = false;
+      state.error = null;
+      state.newLetter = action.payload;
+    });
 
-      if (action.payload.nickname) {
-        state.newLetter.nickname = action.payload.nickname;
-      }
+    builder.addCase(__addLetters.rejected, (state, action) => {
+      state.isLoading = true;
 
-      if (action.payload.writedTo) {
-        state.newLetter.writedTo = action.payload.writedTo;
-      }
+      state.error = action.payload;
+    });
+    //getLetters
 
-      if (action.payload.avatar) {
-        state.newLetter.avatar = action.payload.avatar;
-      }
-      state.newLetter.avatar = action.payload.avatar;
-
-      if (action.meta.arg.content) {
-        state.newLetter.content = action.meta.arg.content;
-      }
+    builder.addCase(__getLetters.pending, (state, action) => {
+      state.isLoading = true;
+      state.error = null;
     });
 
     builder.addCase(__getLetters.fulfilled, (state, action) => {
-      console.log(action);
-      console.log(action.meta.arg);
-      state.newLetter.id = action.payload.id;
-      state.newLetter.nickname = action.payload.nickname;
-      state.newLetter.writedTo = action.payload.writedTo;
-      state.newLetter.avatar = action.payload.avatar;
+      console.log(action.payload);
+      state.isLoading = false;
+      state.error = null;
+      state.newLetter = action.payload;
+    });
 
-      if (action.meta.arg.content) {
-        state.newLetter.content = action.meta.arg.content;
-      }
+    builder.addCase(__getLetters.rejected, (state, action) => {
+      state.isLoading = true;
 
-      state.newLetter.userId = action.payload.userId;
+      state.error = action.payload;
     });
   },
 });

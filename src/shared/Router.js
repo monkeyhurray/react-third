@@ -7,7 +7,7 @@ import Login from "pages/Login";
 import Join from "pages/Join";
 import Layout from "pages/Layout";
 import { useSelector, useDispatch } from "react-redux";
-import { trueLoginState } from "../redux/modules/authSlice";
+import { setIsLogin } from "../redux/modules/authSlice";
 const Router = () => {
   const isLogin = useSelector((state) => state.auth.isLogin);
   const dispatch = useDispatch();
@@ -15,8 +15,8 @@ const Router = () => {
   useEffect(() => {
     const data = JSON.parse(localStorage.getItem("userInfo"));
     console.log(data);
-    if (data.accessToken) {
-      dispatch(trueLoginState());
+    if (data?.accessToken) {
+      dispatch(setIsLogin(true));
     }
   }, [dispatch]);
 
