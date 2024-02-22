@@ -2,7 +2,7 @@
   "letters": [
     {
       "id": "e1ed4e60-27aa-da1f-9368-5fee14166351",
-      "content": "qwe",
+      "content": "금금금상호123123123",
       "userId": "금금상호금",
       "nickname": "금상호",
       "avatar": "",
@@ -10,67 +10,31 @@
       "createdAt": "20240221"
     },
     {
-      "id": "7b742ea6-994e-b500-261f-5f4acca7d8f8",
-      "content": "qweqwe",
+      "id": "913f44f5-8b72-e825-1114-56962a757b3e",
+      "content": "1111111",
       "userId": "금금상호금",
       "nickname": "금상호",
       "avatar": "/static/media/wendy.7950e9047672d391db0f.png",
       "writedTo": "Wendy",
-      "createdAt": "20240221"
+      "createdAt": "20240223"
     },
     {
-      "id": "e40be2a1-e5f2-234b-f726-1296293f18c8",
-      "content": "qweqwe",
+      "id": "60dee9ca-1306-711c-609f-b0b46008ae4f",
+      "content": "11111122222",
       "userId": "금금상호금",
       "nickname": "금상호",
       "avatar": "/static/media/wendy.7950e9047672d391db0f.png",
       "writedTo": "Wendy",
-      "createdAt": "20240222"
+      "createdAt": "20240223"
     },
     {
-      "id": "df262804-acf7-ae04-97bd-55723b7ea57f",
+      "id": "f8d74b3a-1520-44b4-da01-f1d4980cd221",
       "content": "asd",
       "userId": "금금상호금",
       "nickname": "금상호",
       "avatar": "/static/media/wendy.7950e9047672d391db0f.png",
       "writedTo": "Wendy",
-      "createdAt": "20240222"
-    },
-    {
-      "id": "b5b7f128-0b94-c639-c030-7474d88d79ac",
-      "content": "asd",
-      "userId": "금금상호금",
-      "nickname": "금상호",
-      "avatar": "/static/media/wendy.7950e9047672d391db0f.png",
-      "writedTo": "Wendy",
-      "createdAt": "20240222"
-    },
-    {
-      "id": "a9af4570-6be8-29fa-604b-75087dabd8ce",
-      "content": "asdasd",
-      "userId": "금금상호금",
-      "nickname": "금상호",
-      "avatar": "/static/media/wendy.7950e9047672d391db0f.png",
-      "writedTo": "Wendy",
-      "createdAt": "20240222"
-    },
-    {
-      "id": "16008558-f915-6f39-20cf-eea4e3b32f9b",
-      "content": "asdas",
-      "userId": "금금상호금",
-      "nickname": "금상호",
-      "avatar": "/static/media/wendy.7950e9047672d391db0f.png",
-      "writedTo": "Wendy",
-      "createdAt": "20240222"
-    },
-    {
-      "id": "f670acdf-b1aa-caee-a5a6-d587491fe49f",
-      "content": "ㅁㄴㅇ",
-      "userId": "금금상호금",
-      "nickname": "금상호",
-      "avatar": "/static/media/wendy.7950e9047672d391db0f.png",
-      "writedTo": "Wendy",
-      "createdAt": "20240222"
+      "createdAt": "20240223"
     }
   ]
 }

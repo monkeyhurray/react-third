@@ -25,7 +25,6 @@ function Home() {
   const [textAreaContent, setTextAreaContent] = useState("");
 
   const { newLetter, isLoading, error } = useSelector((state) => state.letter);
-  console.log(newLetter);
 
   useEffect(() => {
     const storedUserInfo = localStorage.getItem("userInfo");
@@ -83,7 +82,7 @@ function Home() {
   if (error) {
     return <div>{error.message}</div>;
   }
-
+  console.log(newLetter);
   return (
     <>
       <BackGroundImg alt="img">
@@ -128,10 +127,10 @@ function Home() {
               );
             })}
           </select>
-          <FormUploadInput type="submit" value={"팬레터 등록"} />
+          <FormUploadButton type="submit">"팬레터 등록"</FormUploadButton>
         </FormBody>
 
-        {newLetter.map((item) => {
+        {newLetter?.map((item) => {
           return (
             <CommentDiv
               key={item.id}
@@ -206,7 +205,7 @@ const ContentArea = styled.textarea`
   height: 140px;
 `;
 
-const FormUploadInput = styled.input`
+const FormUploadButton = styled.button`
   margin-left: 10px;
   text-align: right;
 `;

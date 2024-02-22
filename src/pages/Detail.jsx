@@ -1,13 +1,9 @@
-import { React, useState } from "react";
+import { React, useEffect, useState } from "react";
 import styled from "styled-components";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams, useNavigate } from "react-router-dom";
-
+import { __editLetters, __getLetters } from "../redux/modules/lettersSlice";
 import wendy from "assets/images/wendy.png";
-import {
-  removeComment,
-  editComment,
-} from "../redux/modules/entireCommentSlice";
 
 function Detail() {
   const navigate = useNavigate();
@@ -15,30 +11,37 @@ function Detail() {
   const [edited, setEdited] = useState(false);
 
   const { id } = useParams();
-  const { newLetter } = useSelector((state) => state.letter);
-  const selectedData = newLetter.find((item) => item.id === id);
-  const [updateComment, setUpdateComment] = useState(selectedData.content);
 
-  const removeHandler = (id) => {
-    dispatch(removeComment({ id }));
-    navigate("/");
-  };
+  useEffect(() => {
+    dispatch(__getLetters());
+  }, [dispatch]);
+
+  const { newLetter } = useSelector((state) => state.letter);
+
+  const selectedData = newLetter?.find((item) => item.id === id);
 
   const editButton = () => {
     setEdited(true);
   };
+  const [contentVlaue, setContentValue] = useState(selectedData.content);
+  // const updateBtn = () => {
+  //   const nextCommentList = newLetter?.map((commentItem) => {
+  //     if (commentItem.id === id) {
+  //       return { ...commentItem, content: updateComment };
+  //     }
 
-  const updateBtn = () => {
-    const nextCommentList = newLetter.map((commentItem) => {
-      if (commentItem.id === id) {
-        return { ...commentItem, content: updateComment };
-      }
+  //     return commentItem;
+  //   });
 
-      return commentItem;
-    });
+  //   dispatch(editComment(nextCommentList));
 
-    dispatch(editComment(nextCommentList));
-    console.log(dispatch(editComment(nextCommentList)));
+  //   setEdited(false);
+  // };
+  console.log(contentVlaue);
+
+  const updateBtn = (e) => {
+    e.preventDefault();
+    dispatch(__editLetters({ ...selectedData, id, content: contentVlaue }));
     setEdited(false);
   };
 
@@ -61,11 +64,11 @@ function Detail() {
 
           {edited ? (
             <ContentTextArea
-              value={updateComment}
-              onChange={(e) => setUpdateComment(e.target.value)}
+              value={contentVlaue}
+              onChange={(e) => setContentValue(e.target.value)}
             ></ContentTextArea>
           ) : (
-            <ContentDiv>{updateComment}</ContentDiv>
+            <ContentDiv>{contentVlaue}</ContentDiv>
           )}
 
           <Confirmdiv>
@@ -75,9 +78,7 @@ function Detail() {
               <Confirmbtn onClick={editButton}>수정</Confirmbtn>
             )}
 
-            <Confirmbtn onClick={() => removeHandler(selectedData.id)}>
-              삭제
-            </Confirmbtn>
+            <Confirmbtn>삭제</Confirmbtn>
           </Confirmdiv>
         </div>
       </FanLetter>
