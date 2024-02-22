@@ -24,25 +24,17 @@ function Detail() {
     setEdited(true);
   };
   const [contentVlaue, setContentValue] = useState(selectedData.content);
-  // const updateBtn = () => {
-  //   const nextCommentList = newLetter?.map((commentItem) => {
-  //     if (commentItem.id === id) {
-  //       return { ...commentItem, content: updateComment };
-  //     }
 
-  //     return commentItem;
-  //   });
-
-  //   dispatch(editComment(nextCommentList));
-
-  //   setEdited(false);
-  // };
   console.log(contentVlaue);
 
   const updateBtn = (e) => {
     e.preventDefault();
     dispatch(__editLetters({ ...selectedData, id, content: contentVlaue }));
     setEdited(false);
+  };
+
+  const deleteBtn = (e) => {
+    e.preventDefault();
   };
 
   return (
@@ -78,7 +70,7 @@ function Detail() {
               <Confirmbtn onClick={editButton}>수정</Confirmbtn>
             )}
 
-            <Confirmbtn>삭제</Confirmbtn>
+            <Confirmbtn onClick={deleteBtn}>삭제</Confirmbtn>
           </Confirmdiv>
         </div>
       </FanLetter>

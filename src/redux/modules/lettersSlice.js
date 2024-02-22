@@ -44,10 +44,30 @@ export const __getLetters = createAsyncThunk(
     }
   }
 );
+
 export const __editLetters = createAsyncThunk(
   "editLetters",
   async (payload, thunkAPI) => {
-    const { id, content } = payload;
+    const { id } = payload;
+    console.log(payload);
+    try {
+      const { data } = await axios.patch(
+        `http://localhost:4000/letters/${id}`,
+        payload
+      );
+
+      return thunkAPI.fulfillWithValue(data);
+    } catch (error) {
+      console.log(error);
+      return thunkAPI.rejectWithValue(error);
+    }
+  }
+);
+
+export const __deleteLetters = createAsyncThunk(
+  "editLetters",
+  async (payload, thunkAPI) => {
+    const { id } = payload;
     console.log(payload);
     try {
       const { data } = await axios.patch(
@@ -124,6 +144,25 @@ const lettersSlice = createSlice({
     });
 
     builder.addCase(__editLetters.rejected, (state, action) => {
+      state.isLoading = true;
+      state.error = action.payload;
+    });
+
+    //delete 부분
+    builder.addCase(__deleteLetters.pending, (state, action) => {
+      state.isLoading = true;
+      state.error = null;
+    });
+
+    builder.addCase(__deleteLetters.fulfilled, (state, action) => {
+      console.log(action);
+      state.isLoading = false;
+      state.error = null;
+
+      state.newLetter = action.payload;
+    });
+
+    builder.addCase(__deleteLetters.rejected, (state, action) => {
       state.isLoading = true;
       state.error = action.payload;
     });
