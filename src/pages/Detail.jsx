@@ -25,8 +25,6 @@ function Detail() {
   };
   const [contentVlaue, setContentValue] = useState(selectedData.content);
 
-  console.log(contentVlaue);
-
   const updateBtn = (e) => {
     e.preventDefault();
     dispatch(__editLetters({ ...selectedData, id, content: contentVlaue }));

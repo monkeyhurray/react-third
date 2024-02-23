@@ -65,12 +65,12 @@ export const __editLetters = createAsyncThunk(
 );
 
 export const __deleteLetters = createAsyncThunk(
-  "editLetters",
+  "deleteLetters",
   async (payload, thunkAPI) => {
     const { id } = payload;
     console.log(payload);
     try {
-      const { data } = await axios.patch(
+      const { data } = await axios.delete(
         `http://localhost:4000/letters/${id}`,
         payload
       );
