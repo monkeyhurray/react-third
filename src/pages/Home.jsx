@@ -130,7 +130,7 @@ function Home() {
           <FormUploadButton type="submit">"팬레터 등록"</FormUploadButton>
         </FormBody>
 
-        {newLetter?.map((item) => {
+        {newLetter.map((item) => {
           return (
             <CommentDiv
               key={item.id}

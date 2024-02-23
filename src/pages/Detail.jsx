@@ -2,7 +2,11 @@ import { React, useEffect, useState } from "react";
 import styled from "styled-components";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams, useNavigate } from "react-router-dom";
-import { __editLetters, __getLetters } from "../redux/modules/lettersSlice";
+import {
+  __editLetters,
+  __getLetters,
+  __deleteLetters,
+} from "../redux/modules/lettersSlice";
 import wendy from "assets/images/wendy.png";
 
 function Detail() {
@@ -33,6 +37,8 @@ function Detail() {
 
   const deleteBtn = (e) => {
     e.preventDefault();
+    dispatch(__deleteLetters({ id }));
+    navigate("/");
   };
 
   return (

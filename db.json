@@ -1,31 +1,13 @@
 {
   "letters": [
     {
-      "id": "e1ed4e60-27aa-da1f-9368-5fee14166351",
-      "content": "금금금상호123123123",
-      "userId": "금금상호금",
-      "nickname": "금상호",
-      "avatar": "",
-      "writedTo": "Wendy",
-      "createdAt": "20240221"
-    },
-    {
-      "id": "913f44f5-8b72-e825-1114-56962a757b3e",
-      "content": "1111111",
-      "userId": "금금상호금",
+      "id": "e7c2b723-4a93-eccd-dcc6-81764d2e8f21",
+      "content": "qweqeeqwe",
+      "userId": "상금호금",
       "nickname": "금상호",
       "avatar": "/static/media/wendy.7950e9047672d391db0f.png",
       "writedTo": "Wendy",
-      "createdAt": "20240223"
-    },
-    {
-      "id": "60dee9ca-1306-711c-609f-b0b46008ae4f",
-      "content": "11111122222",
-      "userId": "금금상호금",
-      "nickname": "금상호",
-      "avatar": "/static/media/wendy.7950e9047672d391db0f.png",
-      "writedTo": "Wendy",
-      "createdAt": "20240223"
+      "createdAt": "20240224"
     }
   ]
 }

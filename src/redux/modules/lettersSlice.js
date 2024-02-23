@@ -68,11 +68,10 @@ export const __deleteLetters = createAsyncThunk(
   "deleteLetters",
   async (payload, thunkAPI) => {
     const { id } = payload;
-    console.log(payload);
+
     try {
       const { data } = await axios.delete(
-        `http://localhost:4000/letters/${id}`,
-        payload
+        `http://localhost:4000/letters/${id}`
       );
 
       return thunkAPI.fulfillWithValue(data);
@@ -158,8 +157,9 @@ const lettersSlice = createSlice({
       console.log(action);
       state.isLoading = false;
       state.error = null;
-
-      state.newLetter = action.payload;
+      state.newLetter = state.newLetter.filter(
+        (item) => item.id !== action.payload.id
+      );
     });
 
     builder.addCase(__deleteLetters.rejected, (state, action) => {
