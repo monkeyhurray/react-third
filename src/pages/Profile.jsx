@@ -63,10 +63,10 @@ function Profile() {
         ) : (
           <>
             {" "}
-            <AvatarImg src={`${uploadImage}`} />
+            <AvatarImg src={`${userInfo.avatar}`} />
             <div>닉네임:&nbsp;{newLetter[0].nickname}</div>
             <div>유저 아이디:&nbsp;{userInfo?.userId}</div>
-            <button onClick={onClickEdditButton}>수정</button>
+            <EdditButton onClick={onClickEdditButton}>수정</EdditButton>
           </>
         )}
       </DivContent>
@@ -77,20 +77,28 @@ function Profile() {
 export default Profile;
 const ProfileDiv = styled.div`
   margin-top: 20px;
+  display: flex;
+  align-items: center;
+`;
+
+const DivContent = styled.form`
+  width: 350px;
+  height: 200px;
+  margin: auto;
+
+  justify-content: center;
+  background-color: grey;
 `;
 
 const AvatarImg = styled.img`
   float: left;
+  margin-right: 30px;
   border-radius: 50%;
   max-width: 80px;
   max-height: 80px;
 `;
-const DivContent = styled.form`
-  width: 500px;
-  margin: auto;
-  display: flex;
-
-  justify-content: center;
-
-  background-color: grey;
+const EdditButton = styled.button`
+  width: 45px;
+  height: 25px;
+  border-radius: 5px;
 `;
