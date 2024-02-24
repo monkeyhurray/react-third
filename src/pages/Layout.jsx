@@ -1,7 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 import { useNavigate, Outlet } from "react-router-dom";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { setIsLogin } from "../redux/modules/authSlice";
 
 function Layout() {
@@ -14,6 +14,8 @@ function Layout() {
     localStorage.removeItem("userInfo");
     dispatch(setIsLogin(false));
   };
+  const { newLetter } = useSelector((state) => state.letter);
+  const id = newLetter[0]?.id;
 
   return (
     <>
@@ -22,7 +24,9 @@ function Layout() {
           <button onClick={() => navigate("/")}>홈</button>
           {storedUserInfo ? (
             <>
-              <button onClick={() => navigate("/profile")}>내프로필</button>
+              <button onClick={() => navigate(`/profile/${id}`)}>
+                내프로필
+              </button>
               <button onClick={() => onClickLogOutHandler()}>로그아웃</button>
             </>
           ) : (

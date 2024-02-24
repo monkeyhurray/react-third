@@ -121,9 +121,9 @@ function Home() {
           <select onChange={handleSelectedMeber} value={getLetterMember}>
             {redVelvet.map((member) => {
               return (
-                <SelectMember value={member.value} key={member.id}>
+                <option value={member.value} key={member.id}>
                   {member.name}
-                </SelectMember>
+                </option>
               );
             })}
           </select>
@@ -189,15 +189,10 @@ const FormBody = styled.form`
 `;
 
 const NickNameDiv = styled.div``;
-const NickNameInput = styled.input`
-  margin-bottom: 10px;
-  width: 500px;
-`;
+
 const ContentDiv = styled.div`
   align-items: center;
 `;
-
-const SelectMember = styled.option``;
 
 const ContentArea = styled.textarea`
   margin-bottom: 10px;

@@ -3,7 +3,7 @@ import axios from "axios";
 
 const initialState = {
   newLetter: [],
-  isLoading: false,
+  isLoading: true,
   error: null,
 };
 

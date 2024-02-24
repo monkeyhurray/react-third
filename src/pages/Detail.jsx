@@ -2,6 +2,7 @@ import { React, useEffect, useState } from "react";
 import styled from "styled-components";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams, useNavigate } from "react-router-dom";
+import { setIsLogin } from "../redux/modules/authSlice";
 import {
   __editLetters,
   __getLetters,
@@ -15,24 +16,26 @@ function Detail() {
   const [edited, setEdited] = useState(false);
 
   const { id } = useParams();
+  const [contentVlaue, setContentValue] = useState();
+
+  const { newLetter, isLoading, error } = useSelector((state) => state.letter);
 
   useEffect(() => {
     dispatch(__getLetters());
   }, [dispatch]);
+  if (isLoading !== false) {
+    return <div>로딩중...</div>;
+  }
 
-  const { newLetter } = useSelector((state) => state.letter);
+  if (error) {
+    return <div>{error.message}</div>;
+  }
+  const selectedData = newLetter.find((item) => item.id === id);
 
-  const selectedData = newLetter?.find((item) => item.id === id);
+  console.log(selectedData);
 
   const editButton = () => {
     setEdited(true);
-  };
-  const [contentVlaue, setContentValue] = useState(selectedData.content);
-
-  const updateBtn = (e) => {
-    e.preventDefault();
-    dispatch(__editLetters({ ...selectedData, id, content: contentVlaue }));
-    setEdited(false);
   };
 
   const deleteBtn = (e) => {
@@ -41,6 +44,16 @@ function Detail() {
     navigate("/");
   };
 
+  const updateBtn = (e) => {
+    e.preventDefault();
+    dispatch(__editLetters({ ...selectedData, id, content: contentVlaue }));
+    setEdited(false);
+  };
+
+  const onChangeEidtHandler = (e) => {
+    e.preventDefault();
+    setContentValue(e.target.value);
+  };
   return (
     <>
       <ToHomeBtn onClick={() => navigate("/")}>{"홈으로"}</ToHomeBtn>
@@ -61,10 +74,12 @@ function Detail() {
           {edited ? (
             <ContentTextArea
               value={contentVlaue}
-              onChange={(e) => setContentValue(e.target.value)}
-            ></ContentTextArea>
+              onChange={onChangeEidtHandler}
+            >
+              {selectedData.content}
+            </ContentTextArea>
           ) : (
-            <ContentDiv>{contentVlaue}</ContentDiv>
+            <ContentDiv>{selectedData.content}</ContentDiv>
           )}
 
           <Confirmdiv>
