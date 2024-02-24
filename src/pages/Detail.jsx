@@ -2,7 +2,7 @@ import { React, useEffect, useState } from "react";
 import styled from "styled-components";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams, useNavigate } from "react-router-dom";
-import { setIsLogin } from "../redux/modules/authSlice";
+
 import {
   __editLetters,
   __getLetters,
@@ -23,7 +23,8 @@ function Detail() {
   useEffect(() => {
     dispatch(__getLetters());
   }, [dispatch]);
-  if (isLoading !== false) {
+
+  if (isLoading) {
     return <div>로딩중...</div>;
   }
 
